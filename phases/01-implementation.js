@@ -97,6 +97,24 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
   delete(key) {
     // Your code here
+    let index = this.hashMod(key);
+    let bucket = this.data[index];
+    if(!bucket) return "Key not found";
+    if(bucket.key === key) {
+      this.data[index] = bucket.next;
+      this.count--;
+      return bucket.value;
+    }
+    while(bucket.next) {
+      if(bucket.next.key === key) {
+        let deleted = bucket.next;
+        bucket.next = bucket.next.next;
+        this.count--;
+        return deleted.value;
+      }
+      bucket = bucket.next;
+    }
+    return "Key not found";
   }
 }
 module.exports = HashTable;
