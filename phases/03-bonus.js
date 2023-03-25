@@ -81,45 +81,39 @@ let longestSubstr=(str)=>{
     return occurence.length;
 }
 let maxSubarr=(arr)=>{
-    let obj={};
-    //list all occurence of each number
-    for(let i=0;i<arr.length;i++){
-        if(obj[arr[i]]){
-            obj[arr[i]]++;
-        }else{
-            obj[arr[i]]=1;
-        }
-    }
-    let keys=Object.keys(obj);
-    let pairs=[];
-    //find all pairs of numbers that are 1 apart
-    for(let i=0;i<keys.length;i++){
-        let current=keys[i];
-        for(let j=i+1;j<keys.length;j++){
-            if(Math.abs(current-keys[j])<=1){
-                pairs.push([current,keys[j]]);
-            }
-        }
-    }
-    //find the longest subarray
-    if(pairs.length===0){
-        return 0;
-    }
-    let longestpair=pairs[0];
-    let longest=obj[longestpair[0]]+obj[longestpair[1]];
-    if(pairs.length===1){
-        return longest;
-    }
-    for(let i=1;i<pairs.length-1;i++){
-        let current=pairs[i];
-        let currentlength=obj[current[0]]+obj[current[1]];
-        if(currentlength>longest){
-            longestpair=current;
-            longest=currentlength;
-        }
-    } 
-       return longest;
+    
 }
+let coinChange=(coins,target)=>{
+    const coinsarr=coins.sort((a,b)=>b-a);
+    const result=[];
+    if(target===0) return 0;
+    for(let coin of coinsarr){
+        while(target>=coin){
+            target -=coin;
+            result.push(coin);
+        }
+    }
+    if(target>0) return -1;
+    return result.length;
+};
+// const coins = [1, 5, 10, 25];
+// const coins2 = [5];
 
-console.log(maxSubarr([1,3,2,2,5,2,3,7])); // => 5 because the longest subarray is [3,2,2,2,3]
-console.log(maxSubarr([1,1,1,1,3]));// => 4 because the longest subarray is [1,1,1,1]
+// console.log(coinChange(coins, 11));      // => 2, 10 + 1 = 11
+// console.log(coinChange(coins2, 3));      // => -1
+// console.log(coinChange(coins2, 0));      // => 0
+// console.log(coinChange(coins, 100));     // => 4, 25 + 25 + 25 + 25 = 100
+let climbingsStairs=(n)=>{
+    let arr=[];
+    arr[0]=1;
+    arr[1]=1;
+    arr[2]=2;
+    for(let i=3;i<=n;i++){
+        arr[i]=arr[i-1]+arr[i-2]+arr[i-3];
+    }
+    return arr[n];
+}
+// console.log(climbingsStairs(1));
+// console.log(climbingsStairs(2));
+// console.log(climbingsStairs(3));
+// console.log(climbingsStairs(4));
