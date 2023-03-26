@@ -80,9 +80,53 @@ let longestSubstr=(str)=>{
     }));
     return occurence.length;
 }
-let maxSubarr=(arr)=>{
+let maxSubarr=(input)=>{
+      
+        let prev = -1;
+        let current, next;
+        let prevCount = 0, currentCount = 1;
+   
+        // longest constant range length
+        let longest = 1;
+   
+        // first number
+        current = input[0];
+   
+        for (let i = 1; i < input.length; i++) {
+            next = input[i];
+   
+            // If we see same number
+            if (next == current) {
+                currentCount++;
+            }
+   
+            // If we see different number, but
+            // same as previous.
+            else if (next == prev) {
+                prevCount += currentCount;
+                prev = current;
+                current = next;
+                currentCount = 1;
+            }
+   
+            // If number is neither same as previous
+            // nor as current.
+            else {
+                longest = Math.max(longest,
+                currentCount + prevCount);
+                prev = current;
+                prevCount = currentCount;
+                current = next;
+                currentCount = 1;
+            }
+        }
+   
+        return Math.max(longest,
+        currentCount + prevCount);
     
 }
+// console.log(maxSubarr([1,3,2,2,5,2,3,7]));  // => 5 because the longest subarray is [3,2,2,2,3]
+// console.log(maxSubarr([1,1,1,1,3]));     // => 4 because the longest subarray is [1,1,1,1]
 let coinChange=(coins,target)=>{
     const coinsarr=coins.sort((a,b)=>b-a);
     const result=[];
